@@ -4,18 +4,20 @@ from collections import OrderedDict
 from collections import Sequence
 
 import numpy as np
-#import wx
+import wx
 
 #from app import app_utils
-from . import GenericMeta
-from . import PublisherMixin
+from . import GenericWxMeta
+from .publisher import PublisherMixin, uid_to_pubuid
+from .utils import get_function_from_string
+
 
 #from app import log
 
 
-#class GenericObject(pubsub.PublisherMixin, metaclass=GenericWxMeta):  
+class GenericObject(PublisherMixin, metaclass=GenericWxMeta):  
     #
-class GenericObject(PublisherMixin, metaclass=GenericMeta):  
+#class GenericObject(PublisherMixin, metaclass=GenericMeta):  
     """
     Base for all classes.
     
@@ -51,12 +53,12 @@ class GenericObject(PublisherMixin, metaclass=GenericMeta):
         _manager_obj = _manager_class()
         #
         # TODO: verificar isso...
-        if _manager_obj.is_loading_state():
-            self.oid = kwargs.pop('oid')
-            _manager_obj._test_new_object_id(self.tid, self.oid)
-        else:    
-            self.oid = _manager_obj._getnewobjectid(self.tid)     
-        # 
+        # if _manager_obj.is_loading_state():
+        #     self.oid = kwargs.pop('oid')
+        #     _manager_obj._test_new_object_id(self.tid, self.oid)
+        # else:    
+        self.oid = _manager_obj._getnewobjectid(self.tid)     
+        
         # TODO: verificar isso...   
         self._processing_value_from_event = True
         self.name = '{}.{}'.format(*self.uid)
@@ -216,7 +218,7 @@ class GenericObject(PublisherMixin, metaclass=GenericMeta):
         # Special treatment for functions
         elif type_ == types.FunctionType:
             if isinstance(value, str):
-                value = app_utils.get_function_from_string(value)
+                value = get_function_from_string(value)
             if value is not None and not callable(value):
                 msg = 'ERROR: Attributes signed as \"types.FunctionType\" can recieve only \"str\" or \"types.FunctionType\" values. '
                 msg += 'Received: {} - Type: {}'.format(value, type(value))
@@ -249,7 +251,7 @@ class GenericObject(PublisherMixin, metaclass=GenericMeta):
                 self.send_message(topic, old_value=old_value, new_value=value)
                 
         msg = '    {} has setted attribute {} = {}'.format(self.uid, key, self[key])  
-        log.debug(msg)
+#        log.debug(msg)
 
 
     @property
@@ -267,7 +269,7 @@ class GenericObject(PublisherMixin, metaclass=GenericMeta):
         raise Exception('Object uid cannot be deleted.')
      
     def _get_pubsub_uid(self):
-        return pubsub.uid_to_pubuid(self.uid)         
+        return uid_to_pubuid(self.uid)         
            
     
     def _get_pg_categories(self):

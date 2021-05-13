@@ -23,7 +23,7 @@ Our flavor of Metaclasses was bluit based on the references below.
 
 from collections import OrderedDict
 
-# import wx
+import wx
 
 #from app import log
 
@@ -101,12 +101,12 @@ class GenericMeta(type):
         #
         msg = 'Successfully created object from class: {}.'.format(
                                                                 obj.__class__)
-        log.debug(msg)
+#        log.debug(msg)
         return obj
 
 
-# class GenericWxMeta(GenericMeta, wx.siplib.wrappertype):
-#     pass
+class GenericWxMeta(GenericMeta, wx.siplib.wrappertype):
+     pass
 
 
 class GenericManagerMeta(type):
