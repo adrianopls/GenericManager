@@ -7,15 +7,14 @@
 
 
 """
-Gripy messaging pattern module
-==============================
+Messaging pattern module
+========================
 
 "In the publish–subscribe model, subscribers typically receive only 
 a subset of the total messages published. 
 The process of selecting messages for reception and processing 
 is called filtering. There are two common forms of filtering: 
 topic-based and content-based." [1]_
-
 
 Our flavor of publish–subscribe (PubSub) is based on PyPubSub.
 PyPubSub was born as wxPython module but it has grown and nowadays 
@@ -53,8 +52,6 @@ references in the notes section above.
 
 # TODO: corrigir Docs
 
-
-#from wx.lib.pubsub import pub
 from pubsub import pub
 
 

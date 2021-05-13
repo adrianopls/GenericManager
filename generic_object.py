@@ -7,14 +7,15 @@ import numpy as np
 #import wx
 
 #from app import app_utils
-#from app import pubsub
-from classes.GenericManager.metaclasses import GenericMeta
+from . import GenericMeta
+from . import PublisherMixin
+
 #from app import log
 
 
 #class GenericObject(pubsub.PublisherMixin, metaclass=GenericWxMeta):  
     #
-class GenericObject(pubsub.PublisherMixin, metaclass=GenericMeta):  
+class GenericObject(PublisherMixin, metaclass=GenericMeta):  
     """
     Base for all classes.
     
@@ -40,7 +41,7 @@ class GenericObject(pubsub.PublisherMixin, metaclass=GenericMeta):
     tid = None
     _ATTRIBUTES = OrderedDict()
     _ATTRIBUTES['name'] = {
-        'default_value': wx.EmptyString,
+        'default_value': "",
         'type': str        
     }      
     _READ_ONLY = ['oid']

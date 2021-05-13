@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 
-from app import pubsub
+
+from . import PublisherMixin
 from classes.GenericManager.metaclasses import GenericManagerMeta
 from app import log
 
 
-class GenericManager(pubsub.PublisherMixin, metaclass=GenericManagerMeta):  
+class GenericManager(PublisherMixin, metaclass=GenericManagerMeta):  
     """
     The parent class for a Manager.
     
