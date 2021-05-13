@@ -3,7 +3,7 @@
 
 from . import PublisherMixin
 from classes.GenericManager.metaclasses import GenericManagerMeta
-from app import log
+#from app import log
 
 
 class GenericManager(PublisherMixin, metaclass=GenericManagerMeta):  

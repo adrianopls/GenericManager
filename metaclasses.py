@@ -25,7 +25,7 @@ from collections import OrderedDict
 
 # import wx
 
-from app import log
+#from app import log
 
 
 class GenericMeta(type):
@@ -86,7 +86,7 @@ class GenericMeta(type):
                         ret_class.__dict__['_READ_ONLY'].append(item)          
                         
 #        print('\tTOTAL ATTR:', ret_class.__dict__['_ATTRIBUTES'])                
-        log.debug('Successfully created class: {}.'.format(clsname))                         
+#        log.debug('Successfully created class: {}.'.format(clsname))                         
         return ret_class
 
     def __call__(cls, *args, **kwargs):
