@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from app import pubsub
-from classes.base.metaclasses import GenericManagerMeta
+from classes.GenericManager.metaclasses import GenericManagerMeta
 from app import log
 
 

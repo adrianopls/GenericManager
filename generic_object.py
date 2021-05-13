@@ -4,15 +4,16 @@ from collections import OrderedDict
 from collections import Sequence
 
 import numpy as np
-import wx
+#import wx
 
-from app import app_utils
-from app import pubsub
-from classes.base.metaclasses import GenericMeta
-from app import log
+#from app import app_utils
+#from app import pubsub
+from classes.GenericManager.metaclasses import GenericMeta
+#from app import log
 
 
 #class GenericObject(pubsub.PublisherMixin, metaclass=GenericWxMeta):  
+    #
 class GenericObject(pubsub.PublisherMixin, metaclass=GenericMeta):  
     """
     Base for all classes.
