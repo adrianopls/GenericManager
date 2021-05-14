@@ -1,4 +1,5 @@
 
+import logging
 import types
 from collections import OrderedDict
 from collections import Sequence
@@ -6,13 +7,9 @@ from collections import Sequence
 import numpy as np
 import wx
 
-#from app import app_utils
 from . import GenericWxMeta
 from .publisher import PublisherMixin, uid_to_pubuid
 from .utils import get_function_from_string
-
-
-#from app import log
 
 
 class GenericObject(PublisherMixin, metaclass=GenericWxMeta):  
@@ -222,7 +219,7 @@ class GenericObject(PublisherMixin, metaclass=GenericWxMeta):
             if value is not None and not callable(value):
                 msg = 'ERROR: Attributes signed as \"types.FunctionType\" can recieve only \"str\" or \"types.FunctionType\" values. '
                 msg += 'Received: {} - Type: {}'.format(value, type(value))
-                log.error(msg)
+                logging.error(msg)
                 raise AttributeError(msg) 
                 
         elif not isinstance(value, type_):
@@ -251,7 +248,7 @@ class GenericObject(PublisherMixin, metaclass=GenericWxMeta):
                 self.send_message(topic, old_value=old_value, new_value=value)
                 
         msg = '    {} has setted attribute {} = {}'.format(self.uid, key, self[key])  
-#        log.debug(msg)
+        logging.debug(msg)
 
 
     @property

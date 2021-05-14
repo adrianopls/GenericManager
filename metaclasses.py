@@ -21,11 +21,10 @@ Our flavor of Metaclasses was bluit based on the references below.
 
 """
 
+import logging
 from collections import OrderedDict
 
 import wx
-
-#from app import log
 
 
 class GenericMeta(type):
@@ -85,23 +84,26 @@ class GenericMeta(type):
                     if item not in ret_class.__dict__['_READ_ONLY']:
                         ret_class.__dict__['_READ_ONLY'].append(item)          
                         
-#        print('\tTOTAL ATTR:', ret_class.__dict__['_ATTRIBUTES'])                
-#        log.debug('Successfully created class: {}.'.format(clsname))                         
+#        print('\tTOTAL ATTR:', ret_class.__dict__['_ATTRIBUTES'])         
+      
+        logging.debug('Successfully created class: {}'.format(clsname))    
         return ret_class
+
 
     def __call__(cls, *args, **kwargs):
         """
         Function reponsible for creating objects.
         
         """
+        msg = 'Start to create object for the class: {}'.format(super().__name__)
+        logging.debug(msg)
         # Time to create the new object... 
         obj = super().__call__(*args, **kwargs)
         # Setting obj._GenericMeta__initialised used by is_initialised method.
         obj.__initialised = True 
         #
-        msg = 'Successfully created object from class: {}.'.format(
-                                                                obj.__class__)
-#        log.debug(msg)
+        msg = 'Created object: {}'.format(obj)
+        logging.debug(msg)
         return obj
 
 
