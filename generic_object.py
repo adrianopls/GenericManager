@@ -7,18 +7,16 @@ from collections import Sequence
 import numpy as np
 import wx
 
-from . import GenericWxMeta
+from . import GenericMeta
 from .publisher import PublisherMixin, uid_to_pubuid
 from .utils import get_function_from_string
 
 
-class GenericObject(PublisherMixin, metaclass=GenericWxMeta):  
-    #
-#class GenericObject(PublisherMixin, metaclass=GenericMeta):  
+class GenericObject(PublisherMixin, metaclass=GenericMeta):  
     """
     Base for all classes.
     
-    All GenericObjects have GenericWxMeta as metaclass.
+    All GenericObjects have GenericMeta as metaclass.
     
     _ATTRIBUTES:
         * default_value:    As the name says.

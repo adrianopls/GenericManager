@@ -8,10 +8,7 @@ Here we have 2 main Metaclasses: GenericMeta and GenericManagerMeta.
 They are responsible for create all classes inherits from GenericObject 
 or GenericManager.
 
-Another Metaclass in this file is GenericWxMeta is a convinience one 
-for creating object inherits from GenericObject and wx.Object.
-
-All GenericObjects will have GenericWxMeta as metaclass as well as 
+All GenericObjects will have GenericMeta as metaclass as well as 
 GenericManagers have GenericManagerMeta. 
 
 Our flavor of Metaclasses was bluit based on the references below.
@@ -105,10 +102,6 @@ class GenericMeta(type):
         msg = 'Created object: {}'.format(obj)
         logging.debug(msg)
         return obj
-
-
-class GenericWxMeta(GenericMeta, wx.siplib.wrappertype):
-     pass
 
 
 class GenericManagerMeta(type):
