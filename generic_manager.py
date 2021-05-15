@@ -2,7 +2,7 @@
 import logging
 
 from . import PublisherMixin
-from classes.GenericManager.metaclasses import GenericManagerMeta
+from .metaclasses import GenericManagerMeta
 
 
 class GenericManager(PublisherMixin, metaclass=GenericManagerMeta):  
