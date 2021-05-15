@@ -20,11 +20,132 @@ class GenericManager(PublisherMixin, metaclass=GenericManagerMeta):
     """
     _LOADING_STATE = False
     
-    
     def __init__(self):
         pass
         #self._ownerref = None
+              
+    def new(self, typeid, *args, **kwargs):        
+        """
+        Create a new instance of the desired type.
+        
+        In this method `*args` and `**kwargs` will be passed on as arguments to
+        the constructor of the new object.
+        
+        Parameters
+        ----------
+        typeid : str
+            The type identificator of the new object.
+        
+        Returns
+        -------
+        obj : GenericObject
+            The new object.
+        
+        Notes
+        -----
+        The new object is not automatically added to Manager. The ``add``
+        method must be called so that the new object can be managed.
+        
+        Examples
+        --------
+        >>> om = ObjectManager()
+        >>> newobj = om.new('typeid', name='nameofthenewobject')
+        >>> # name will be passed to the constructor
+        """
+        raise NotImplementedError('Must be implemented by subclass.')    
 
+    def add(self, obj, parentuid=None):        
+        """
+        Add a new instance that from now on will be managed.
+        
+        Parameters
+        ----------
+        obj : GenericObject
+            The object to be managed.
+        parentuid : uid, optional
+            The unique identificator of the added object's parent. If the
+            object has no parent this argument must be ommited.
+        
+        Returns
+        -------
+        bool
+            Whether the operation was successful.
+        
+        Examples
+        --------
+        >>> om = ObjectManager()
+        >>> parentobj = om.new('parenttypeid')
+        >>> om.add(parentobj)
+        True
+        >>> childobj = om.new('childtypeid')
+        >>> om.add(childobj)
+        False
+        >>> om.add(childobj, parentobj.uid)
+        True
+        """
+        raise NotImplementedError('Must be implemented by subclass.')    
+        
+    def remove(self, uid):
+        """
+        Remove the object which `uid` was provided.
+        
+        Parameters
+        ----------
+        uid : uid
+            The unique identificator of the object to remove.
+        
+        Returns
+        -------
+        bool
+            Whether the remove operation was successful.
+        
+        Examples
+        --------
+        >>> om = ObjectManager()
+        >>> obj = om.new('typeid')
+        >>> om.add(obj)
+        True
+        >>> om.remove(obj.uid)
+        True
+        >>> om.get(obj.uid)
+        KeyError: obj.uid
+        """    
+        raise NotImplementedError('Must be implemented by subclass.')  
+
+    def save(self, archivepath):
+        """
+        Save the current `Manager` state to a file.
+        
+        Parameters
+        ----------
+        archivepath : str
+            The path (i.e. the filename) of the file in which the state will
+            be saved.
+        
+        Returns
+        -------
+        bool
+            Whether the operation was successful.
+        
+        """        
+        raise NotImplementedError('Must be implemented by subclass.')
+
+    def load(self, archivepath):        
+        """
+        Load the state of `Manager` from a previously saved file.
+        
+        Parameters
+        ----------
+        archivepath : str
+            The path (i.e. the filename) of the file to load the state from.
+        
+        Returns
+        -------
+        bool
+            Whether the operation was successful.
+        """        
+        raise NotImplementedError('Must be implemented by subclass.')        
+        
     def _get_pubsub_uid(self):
         return self.__class__.__name__
    
@@ -70,8 +191,6 @@ class GenericManager(PublisherMixin, metaclass=GenericManagerMeta):
                 ret_list += self.get_children_uids(child_uid, True) 
             return ret_list                
 
-
-    # Migrado para a SuperClasse em 10-11-2018
     # TODO: Add recursively to docs.
     def list(self, tid=None, parent_uid=None, recursively=False):
         """
@@ -128,8 +247,6 @@ class GenericManager(PublisherMixin, metaclass=GenericManagerMeta):
                 if child_uid[0] == tid
         ]
 
-
-        
     def exec_query(self, tid, parent_uid=None, *args, **kwargs):
         """
         Execute queries for searching managed objects.
@@ -153,7 +270,7 @@ class GenericManager(PublisherMixin, metaclass=GenericManagerMeta):
                     type_ = attr.get('type')
                     value = type_(value)
                     attr_value = obj[key]
-
+                    #
                     if operator == '>=':
                         ok = attr_value >= value
                     elif operator == '<=':
@@ -166,12 +283,11 @@ class GenericManager(PublisherMixin, metaclass=GenericManagerMeta):
                         ok = attr_value != value
                     elif operator == '=':
                         ok = attr_value == value
-                            
+                    #        
                     if not ok:
                         break
                 if ok:
                     ret_list.append(obj)
-            #if kwargs:
             orderby = kwargs.get('orderby')
             if orderby and len(ret_list) >= 2:
                 aux_list = []
@@ -187,13 +303,11 @@ class GenericManager(PublisherMixin, metaclass=GenericManagerMeta):
             if reverse:
                 ret_list.reverse()                     
             return ret_list
-        except Exception as e:
+        except:
             msg = 'ERROR in {}.exec_query({}, {}, {}, {})'.format( \
                         self.__class__.__name__, tid, parent_uid, args, kwargs)
-            print ('\n' + msg)
+            logging.debug(msg)
             raise
-            
-            
             
     def _create_query_comparators(self, *args):
         """
@@ -217,6 +331,4 @@ class GenericManager(PublisherMixin, metaclass=GenericManagerMeta):
             )
         return ret_list          
         
-    
-    
     
