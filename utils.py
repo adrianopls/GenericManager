@@ -20,8 +20,11 @@ class Chronometer(object):
     
     def __init__(self):
         self.start_time = timeit.default_timer()
-    
-    def end(self):
+        self.total = None
+  
+    def finish(self):  
         self.total = timeit.default_timer() - self.start_time
-        return 'Execution in {:0.3f}s'.format(self.total)        
-                  
+        self.start_time = None
+                    
+    def get_message(self):
+        return 'Execution in {:0.3f}s'.format(self.total)  
