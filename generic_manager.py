@@ -331,4 +331,36 @@ class GenericManager(PublisherMixin, metaclass=GenericManagerMeta):
             )
         return ret_list          
         
-    
+
+
+    # TODO: Verificar se aqui eh a melhor posicao para esta funcao
+    def parse_string_to_uid(self, obj_uid_string):
+        """
+        Parse a uid String (which may contains non uid characters like " and \) to
+        a uid tuple in a format (tid, oid).
+        
+        Parameters
+        ----------
+        obj_uid_string : str
+            The uid String.
+        
+        Returns
+        -------
+        tuple
+            A pair (tid, oid) which can be a Gripy object identifier.
+        """
+        try:
+    #        print ('parse_string_to_uid:', obj_uid_string)
+            left_index = obj_uid_string.find('(')
+            right_index = obj_uid_string.rfind(')')
+            if left_index == -1 or right_index == -1:
+                return None
+            elif right_index < left_index:
+                return None
+            obj_uid_string = obj_uid_string[left_index+1:right_index]
+            tid, oid = obj_uid_string.split(',')
+            tid = tid.strip('\'\" ')
+            oid = int(oid.strip('\'\" '))
+            return tid, oid       
+        except:
+            raise    
