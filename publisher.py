@@ -5,7 +5,6 @@
 # Adriano Paulo Laes de Santana
 # May 11th, 2017
 
-
 """
 Messaging pattern module
 ========================
@@ -51,6 +50,7 @@ references in the notes section above.
 
 
 # TODO: corrigir Docs
+import logging 
 
 from pubsub import pub
 
@@ -197,12 +197,9 @@ class PublisherMixin(object):
         # print ('publisher: {} - topic: {} - data: {}'.format(self._get_pubsub_uid(), topic, data))
         try:
             topic = self._get_pubsub_uid() + '.' + topic
-            #print ('\nPublisherMixin.send_message - topic:', topic, data)
             pub.sendMessage(topic, **data)
         except:
-#            print ('ERROR [PublisherMixin.send_message]:', self)
-#            print ('At:', topic, data)
-#            print ('Expection was:', e, '\n')
+            logging.exception('ERROR [PublisherMixin.send_message]:', self, topic, data)
             raise
 
     

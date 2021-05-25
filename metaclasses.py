@@ -21,8 +21,6 @@ Our flavor of Metaclasses was bluit based on the references below.
 import logging
 from collections import OrderedDict
 
-import wx
-
 
 class GenericMeta(type):
     
@@ -66,23 +64,15 @@ class GenericMeta(type):
         # superclass _ATTRIBUTES and _READ_ONLY. 
         # If this behavior is not desired for _ATTRIBUTES, the key must be 
         # setted with None as value.
-        
-#        print('\n\n', clsname)
-#        print('\tATTR:', ret_class.__dict__['_ATTRIBUTES'])
         for superclass in superclasses:
-#            print('\t\tSUPER:', superclass)
             if '_ATTRIBUTES' in superclass.__dict__:
                 for key, value in superclass.__dict__['_ATTRIBUTES'].items():
                     if key not in ret_class.__dict__['_ATTRIBUTES']:
-#                        print('\t\t\tkv:', key, value)
                         ret_class.__dict__['_ATTRIBUTES'][key] = value
             if '_READ_ONLY' in superclass.__dict__:
                 for item in superclass.__dict__['_READ_ONLY']:
                     if item not in ret_class.__dict__['_READ_ONLY']:
-                        ret_class.__dict__['_READ_ONLY'].append(item)          
-                        
-#        print('\tTOTAL ATTR:', ret_class.__dict__['_ATTRIBUTES'])         
-      
+                        ret_class.__dict__['_READ_ONLY'].append(item)                  
         logging.debug('Successfully created class: {}'.format(clsname))    
         return ret_class
 
@@ -105,8 +95,23 @@ class GenericMeta(type):
 
 
 class GenericManagerMeta(type):
-    pass
-    #def __new__(cls, clsname, superclasses, dict_):
-    #    return super().__new__(cls, clsname, superclasses, dict_)     
+
+    def __new__(cls, clsname, superclasses, dict_):
+        ret_class = super().__new__(cls, clsname, superclasses, dict_)
+        #return super().__new__(cls, clsname, superclasses, dict_)    
+        logging.debug('Successfully created class: {}'.format(clsname)) 
+        return ret_class
     
-    
+    # def __call__(cls, *args, **kwargs):
+    #     """
+    #     Function reponsible for creating objects.
+        
+    #     """
+    #     msg = 'Start to create object for the class: {}'.format(super().__name__)
+    #     logging.debug(msg)
+    #     # Time to create the new object... 
+    #     obj = super().__call__(*args, **kwargs)
+    #     #
+    #     msg = 'Created object: {}'.format(obj)
+    #     logging.debug(msg)
+    #     return obj    

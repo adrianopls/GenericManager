@@ -1,33 +1,21 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu May 13 16:07:20 2021
 
-@author: Adriano
-"""
-
+import logging 
 import timeit
 import importlib
 
 
 def get_function_from_string(fullpath_function):
     try:
-        #print ('\nget_function_from_string:', fullpath_function)
         module_str = '.'.join(fullpath_function.split('.')[:-1]) 
         function_str = fullpath_function.split('.')[-1]
-        #print ('importing module:', module_str)
         module_ = importlib.import_module(module_str)
-        #print ('getting function:', function_str, '\n')
         function_ = getattr(module_, function_str)
         return function_    
-    except Exception as e:
+    except:
         msg = 'ERROR in function app.app_utils.get_function_from_string({}).'.format(fullpath_function)
-#        log.exception(msg)
-        print (msg)
-        raise e        
+        logging.exception(msg)
+      
              
-        
-        
-        
 class Chronometer(object):
     
     def __init__(self):
