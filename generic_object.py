@@ -43,6 +43,7 @@ class GenericObject(PublisherMixin, metaclass=GenericMeta):
     }      
     _READ_ONLY = ['oid']
     
+    
     def __init__(self, **kwargs): 
         _manager_class = self.get_manager_class()
         _manager_obj = _manager_class()

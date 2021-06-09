@@ -334,7 +334,8 @@ class GenericManager(PublisherMixin, metaclass=GenericManagerMeta):
 
 
     # TODO: Verificar se aqui eh a melhor posicao para esta funcao
-    def parse_string_to_uid(self, obj_uid_string):
+    @classmethod
+    def parse_string_to_uid(cls, obj_uid_string):
         """
         Parse a uid String (which may contains non uid characters like " and \) to
         a uid tuple in a format (tid, oid).

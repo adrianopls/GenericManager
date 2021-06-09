@@ -27,4 +27,4 @@ class Chronometer(object):
         self.start_time = None
                     
     def get_message(self):
-        return 'Execution in {:0.3f}s'.format(self.total)  
+        return "Execution in {:0.3f}s".format(self.total)  
